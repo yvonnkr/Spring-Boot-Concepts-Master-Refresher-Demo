@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/departments")
@@ -23,6 +24,12 @@ public class DepartmentController {
     public ResponseEntity<Void> saveDepartment(@RequestBody DepartmentRequestDto request) {
         DepartmentDto department = service.createDepartment(request);
         return entityWithLocation(department.getDepartmentId());
+
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DepartmentDto>> getDepartments() {
+        return ResponseEntity.ok(service.getDepartments());
 
     }
 

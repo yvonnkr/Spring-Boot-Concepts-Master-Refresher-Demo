@@ -12,12 +12,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DepartmentController.class)
 class DepartmentControllerTest {
@@ -44,6 +46,23 @@ class DepartmentControllerTest {
                 .andExpect(header().string("Location", "http://localhost" + PATH + "/" + departmentDto.getDepartmentId()));
 
         verify(departmentService).createDepartment(any(DepartmentRequestDto.class));
+    }
+
+    @Test
+    void should_getDepartments() throws Exception {
+        List<DepartmentDto> departments = TestDepartmentData.departmentsDtos();
+
+        given(departmentService.getDepartments())
+                .willReturn(departments);
+
+        mockMvc.perform(get(PATH)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].departmentId").value(1))
+                .andExpect(jsonPath("$[1].departmentId").value(2))
+                .andExpect(jsonPath("$[2].departmentId").value(3));
+
+        verify(departmentService).getDepartments();
     }
 
 

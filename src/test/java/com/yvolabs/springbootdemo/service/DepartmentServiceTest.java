@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -33,5 +35,20 @@ class DepartmentServiceTest {
         assertEquals("some_dept_name", department.getDepartmentName());
         assertEquals("some_dept_addr", department.getDepartmentAddress());
         assertEquals("some_dept_code", department.getDepartmentCode());
+    }
+
+    @Test
+    void should_getDepartments() {
+        when(departmentService.getDepartments())
+                .thenReturn(TestDepartmentData.departmentsDtos());
+
+        List<DepartmentDto> departments = departmentService.getDepartments();
+
+        verify(departmentService, times(1)).getDepartments();
+        assertEquals(3, departments.size());
+        assertEquals(1, departments.get(0).getDepartmentId());
+        assertEquals(2, departments.get(1).getDepartmentId());
+        assertEquals(3, departments.get(2).getDepartmentId());
+
     }
 }

@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.yvolabs.springbootdemo.mapper.DepartmentMapper.INSTANCE;
 
 @Service
@@ -22,5 +24,13 @@ public class DepartmentServiceImpl implements DepartmentService {
         repository.save(department);
         return INSTANCE.departmentDtoFromDepartment(department);
 
+    }
+
+    @Override
+    public List<DepartmentDto> getDepartments() {
+        List<Department> departments = repository.findAll();
+        return departments.stream()
+                .map(INSTANCE::departmentDtoFromDepartment)
+                .toList();
     }
 }
