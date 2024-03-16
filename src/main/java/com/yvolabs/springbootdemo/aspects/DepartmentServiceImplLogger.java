@@ -3,6 +3,7 @@ package com.yvolabs.springbootdemo.aspects;
 import com.yvolabs.springbootdemo.dto.DepartmentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -51,5 +52,11 @@ public class DepartmentServiceImplLogger {
     public void updateDepartmentLogger(JoinPoint jp, DepartmentDto response) {
         String department = response != null ? response.toString() : "Department Not Found";
         log.info("{} Called: Response: {}", jp.getSignature().getName(), department);
+    }
+
+    @After(value = "execution(* com.yvolabs.springbootdemo.service.DepartmentServiceImpl.deleteDepartment(..))")
+    public void updateDepartmentLogger(JoinPoint jp) {
+        Long departmentId = (Long) jp.getArgs()[0];
+        log.info("{} Called: Department with Id {} DELETED", jp.getSignature().getName(), departmentId);
     }
 }

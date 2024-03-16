@@ -105,4 +105,11 @@ class DepartmentServiceTest {
         assertEquals("some_dept_addr", department.getDepartmentAddress());
         assertEquals("some_dept_code", department.getDepartmentCode());
     }
+
+    @Test
+    void deleteDepartment() {
+        Long departmentId = 1L;
+        departmentService.deleteDepartment(departmentId);
+        verify(departmentService).deleteDepartment(departmentId);
+    }
 }

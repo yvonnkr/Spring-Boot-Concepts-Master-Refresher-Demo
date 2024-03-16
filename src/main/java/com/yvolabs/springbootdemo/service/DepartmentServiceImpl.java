@@ -74,6 +74,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         return null;
     }
 
+    @Override
+    public void deleteDepartment(Long departmentId) {
+        repository.deleteById(departmentId);
+    }
+
     private static List<DepartmentDto> mapDepartmentsToDto(List<Department> departments) {
         return departments.stream()
                 .map(INSTANCE::departmentDtoFromDepartment)

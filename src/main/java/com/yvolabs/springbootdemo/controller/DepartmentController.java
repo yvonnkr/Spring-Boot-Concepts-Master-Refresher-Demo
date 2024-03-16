@@ -61,6 +61,12 @@ public class DepartmentController {
 
     }
 
+    @DeleteMapping("/{departmentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteDepartment(@PathVariable Long departmentId) {
+        service.deleteDepartment(departmentId);
+    }
+
     private ResponseEntity<Void> entityWithLocation(Object resourceId) {
 
         URI location = ServletUriComponentsBuilder

@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
@@ -128,6 +129,19 @@ class DepartmentControllerTest {
                 .andExpect(jsonPath("departmentCode").value("some_dept_code"));
 
         verify(departmentService).updateDepartment(any(), any());
+    }
+
+    @Test
+    void should_deleteDepartmentById() throws Exception {
+        Long departmentId = 1L;
+        String deletePath = PATH + "/1";
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(deletePath, departmentId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(departmentService).deleteDepartment(departmentId);
     }
 
 
