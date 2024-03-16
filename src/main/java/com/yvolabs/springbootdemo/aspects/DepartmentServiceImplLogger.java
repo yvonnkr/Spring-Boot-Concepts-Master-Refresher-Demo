@@ -40,4 +40,10 @@ public class DepartmentServiceImplLogger {
     public void getDepartmentsByNameLogger(JoinPoint jp, List<DepartmentDto> departments) {
         log.info("Get departments by name paginated called: {} items returned", departments.size());
     }
+
+    @AfterReturning(value = "execution(* com.yvolabs.springbootdemo.service.DepartmentServiceImpl.getDepartmentById(..))", returning = "response")
+    public void getDepartmentByIdLogger(JoinPoint jp, DepartmentDto response) {
+        String department = response != null ? response.toString() : "Department Not Found";
+        log.info("{} Called: Response: {}", jp.getSignature().getName(), department);
+    }
 }

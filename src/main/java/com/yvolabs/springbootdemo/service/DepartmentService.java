@@ -14,4 +14,5 @@ public interface DepartmentService {
 
     List<DepartmentDto> getDepartmentByNamePaginated(@Nullable String name, Pageable pageable);
 
+    DepartmentDto getDepartmentById(Long departmentId);
 }

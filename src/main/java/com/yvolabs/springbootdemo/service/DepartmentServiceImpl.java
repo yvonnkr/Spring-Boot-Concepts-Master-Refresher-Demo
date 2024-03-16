@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.yvolabs.springbootdemo.mapper.DepartmentMapper.INSTANCE;
 
@@ -50,6 +51,13 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<Department> departments = allPaginated.getContent();
         return mapDepartmentsToDto(departments);
 
+
+    }
+
+    @Override
+    public DepartmentDto getDepartmentById(Long departmentId) {
+        Optional<Department> departmentOpt = repository.findById(departmentId);
+        return departmentOpt.map(INSTANCE::departmentDtoFromDepartment).orElse(null);
 
     }
 

@@ -82,6 +82,36 @@ class DepartmentControllerTest {
         verify(departmentService).getDepartmentByNamePaginated(any(), any());
     }
 
+    @Test
+    void should_getDepartmentById() throws Exception {
+        DepartmentDto department = TestDepartmentData.departmentDto();
+
+        given(departmentService.getDepartmentById(any()))
+                .willReturn(department);
+
+        mockMvc.perform(get(PATH + "/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("departmentId").value(1))
+                .andExpect(jsonPath("departmentName").value("some_dept_name"))
+                .andExpect(jsonPath("departmentCode").value("some_dept_code"));
+
+        verify(departmentService).getDepartmentById(any());
+    }
+
+    @Test
+    void should_return404WhenGetDepartmentById() throws Exception {
+
+        given(departmentService.getDepartmentById(any()))
+                .willReturn(null);
+
+        mockMvc.perform(get(PATH + "/123")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(departmentService).getDepartmentById(any());
+    }
+
 
     protected static String asJsonString(final Object obj) {
         try {

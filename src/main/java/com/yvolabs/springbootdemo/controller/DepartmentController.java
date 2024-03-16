@@ -46,6 +46,13 @@ public class DepartmentController {
 
     }
 
+    @GetMapping("/{departmentId}")
+    public ResponseEntity<?> findDepartmentById(@PathVariable Long departmentId) {
+        DepartmentDto department = service.getDepartmentById(departmentId);
+        return department != null ? ResponseEntity.ok(department) :
+                ResponseEntity.notFound().build();
+    }
+
     private ResponseEntity<Void> entityWithLocation(Object resourceId) {
 
         URI location = ServletUriComponentsBuilder
