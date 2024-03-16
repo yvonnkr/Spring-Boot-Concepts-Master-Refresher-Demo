@@ -46,4 +46,10 @@ public class DepartmentServiceImplLogger {
         String department = response != null ? response.toString() : "Department Not Found";
         log.info("{} Called: Response: {}", jp.getSignature().getName(), department);
     }
+
+    @AfterReturning(value = "execution(* com.yvolabs.springbootdemo.service.DepartmentServiceImpl.updateDepartment(..))", returning = "response")
+    public void updateDepartmentLogger(JoinPoint jp, DepartmentDto response) {
+        String department = response != null ? response.toString() : "Department Not Found";
+        log.info("{} Called: Response: {}", jp.getSignature().getName(), department);
+    }
 }

@@ -53,6 +53,14 @@ public class DepartmentController {
                 ResponseEntity.notFound().build();
     }
 
+    @PatchMapping("/{departmentId}")
+    public ResponseEntity<DepartmentDto> updateDepartment(@PathVariable Long departmentId, @RequestBody DepartmentRequestDto request) {
+        DepartmentDto department = service.updateDepartment(departmentId, request);
+        return department != null ? ResponseEntity.ok(department) :
+                ResponseEntity.notFound().build();
+
+    }
+
     private ResponseEntity<Void> entityWithLocation(Object resourceId) {
 
         URI location = ServletUriComponentsBuilder

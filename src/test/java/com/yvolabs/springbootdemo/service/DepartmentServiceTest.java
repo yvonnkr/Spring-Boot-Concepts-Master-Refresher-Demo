@@ -86,7 +86,23 @@ class DepartmentServiceTest {
         assertEquals(1, department.getDepartmentId());
         assertEquals("some_dept_name", department.getDepartmentName());
         assertEquals("some_dept_code", department.getDepartmentCode());
+    }
 
+    @Test
+    void updateDepartment() {
+        DepartmentDto departmentDto = TestDepartmentData.departmentDto();
+        DepartmentRequestDto departmentRequest = TestDepartmentData.departmentRequestDto();
 
+        when(departmentService.updateDepartment(1L, departmentRequest))
+                .thenReturn(departmentDto);
+
+        DepartmentDto department = departmentService.updateDepartment(1L, departmentRequest);
+
+        verify(departmentService, times(1)).updateDepartment(1L, departmentRequest);
+        assertNotNull(department);
+        assertEquals(departmentDto.getDepartmentId(), department.getDepartmentId());
+        assertEquals("some_dept_name", department.getDepartmentName());
+        assertEquals("some_dept_addr", department.getDepartmentAddress());
+        assertEquals("some_dept_code", department.getDepartmentCode());
     }
 }

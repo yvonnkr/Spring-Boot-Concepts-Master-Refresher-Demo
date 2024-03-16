@@ -61,6 +61,19 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     }
 
+    @Override
+    public DepartmentDto updateDepartment(Long departmentId, DepartmentRequestDto request) {
+        Optional<Department> departmentOpt = repository.findById(departmentId);
+        if (departmentOpt.isPresent()) {
+            Department department = departmentOpt.get();
+            INSTANCE.updateDepartmentFromDto(request, department);
+            repository.save(department);
+            return INSTANCE.departmentDtoFromDepartment(department);
+        }
+
+        return null;
+    }
+
     private static List<DepartmentDto> mapDepartmentsToDto(List<Department> departments) {
         return departments.stream()
                 .map(INSTANCE::departmentDtoFromDepartment)

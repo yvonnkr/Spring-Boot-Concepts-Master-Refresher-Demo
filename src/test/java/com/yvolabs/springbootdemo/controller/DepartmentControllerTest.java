@@ -17,8 +17,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DepartmentController.class)
@@ -110,6 +109,25 @@ class DepartmentControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(departmentService).getDepartmentById(any());
+    }
+
+    @Test
+    void should_updateDepartment() throws Exception {
+        DepartmentDto departmentDto = TestDepartmentData.departmentDto();
+        DepartmentRequestDto departmentRequest = TestDepartmentData.departmentRequestDto();
+
+        given(departmentService.updateDepartment(any(), any()))
+                .willReturn(departmentDto);
+
+        mockMvc.perform(patch(PATH + "/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(departmentRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("departmentId").value(1))
+                .andExpect(jsonPath("departmentName").value("some_dept_name"))
+                .andExpect(jsonPath("departmentCode").value("some_dept_code"));
+
+        verify(departmentService).updateDepartment(any(), any());
     }
 
 

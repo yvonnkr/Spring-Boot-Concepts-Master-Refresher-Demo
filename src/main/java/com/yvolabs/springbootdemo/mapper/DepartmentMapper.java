@@ -5,6 +5,7 @@ import com.yvolabs.springbootdemo.dto.DepartmentRequestDto;
 import com.yvolabs.springbootdemo.entity.Department;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
@@ -17,4 +18,8 @@ public interface DepartmentMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     DepartmentDto departmentDtoFromDepartment(Department department);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateDepartmentFromDto(DepartmentRequestDto dto, @MappingTarget Department entity);
+
 }
