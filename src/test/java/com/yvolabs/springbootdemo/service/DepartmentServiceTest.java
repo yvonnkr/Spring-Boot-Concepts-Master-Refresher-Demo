@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -45,10 +46,32 @@ class DepartmentServiceTest {
         List<DepartmentDto> departments = departmentService.getDepartments();
 
         verify(departmentService, times(1)).getDepartments();
-        assertEquals(3, departments.size());
+        assertEquals(5, departments.size());
         assertEquals(1, departments.get(0).getDepartmentId());
         assertEquals(2, departments.get(1).getDepartmentId());
         assertEquals(3, departments.get(2).getDepartmentId());
+
+    }
+
+    @Test
+    void should_getDepartmentsByNameAndSortByIdDesc() {
+        List<DepartmentDto> departmentsDtos = TestDepartmentData.departmentsDtos();
+        List<DepartmentDto> response = List.of(departmentsDtos.get(4), departmentsDtos.get(3));
+
+        String name = "dev";
+        Pageable pageable = Pageable.ofSize(2);
+
+        when(departmentService.getDepartmentByNamePaginated(name, pageable))
+                .thenReturn(response);
+
+        List<DepartmentDto> departments = departmentService.getDepartmentByNamePaginated(name, pageable);
+
+        verify(departmentService, times(1))
+                .getDepartmentByNamePaginated(name, pageable);
+
+        assertEquals(2, departments.size());
+        assertEquals(5, departments.get(0).getDepartmentId());
+        assertEquals(4, departments.get(1).getDepartmentId());
 
     }
 }

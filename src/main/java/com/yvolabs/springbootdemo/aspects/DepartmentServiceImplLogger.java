@@ -22,6 +22,10 @@ public class DepartmentServiceImplLogger {
     public void getDepartmentsPointcut() {
     }
 
+    @Pointcut("execution(* com.yvolabs.springbootdemo.service.DepartmentServiceImpl.getDepartmentByNamePaginated(..))")
+    public void getDepartmentsByNamePointcut() {
+    }
+
     @AfterReturning(value = "createDepartmentPointcut()", returning = "department")
     public void createDepartmentLogger(JoinPoint jp, DepartmentDto department) {
         log.info("Department with id {} Saved", department.getDepartmentId());
@@ -30,5 +34,10 @@ public class DepartmentServiceImplLogger {
     @AfterReturning(value = "getDepartmentsPointcut()", returning = "departments")
     public void getDepartmentsLogger(JoinPoint jp, List<DepartmentDto> departments) {
         log.info("Get departments called: {} items returned", departments.size());
+    }
+
+    @AfterReturning(value = "getDepartmentsByNamePointcut()", returning = "departments")
+    public void getDepartmentsByNameLogger(JoinPoint jp, List<DepartmentDto> departments) {
+        log.info("Get departments by name paginated called: {} items returned", departments.size());
     }
 }

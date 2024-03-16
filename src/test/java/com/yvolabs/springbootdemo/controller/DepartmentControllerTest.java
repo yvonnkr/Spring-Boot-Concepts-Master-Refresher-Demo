@@ -65,6 +65,23 @@ class DepartmentControllerTest {
         verify(departmentService).getDepartments();
     }
 
+    @Test
+    void should_getDepartmentsByNameAndSortByIdDesc() throws Exception {
+        List<DepartmentDto> departments = TestDepartmentData.departmentsDtos();
+        List<DepartmentDto> response = List.of(departments.get(4), departments.get(3));
+
+        given(departmentService.getDepartmentByNamePaginated(any(), any()))
+                .willReturn(response);
+
+        mockMvc.perform(get(PATH + "/search?departmentName=dev&page=0&size=3&sort=departmentId,desc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].departmentId").value(5))
+                .andExpect(jsonPath("$[1].departmentId").value(4));
+
+        verify(departmentService).getDepartmentByNamePaginated(any(), any());
+    }
+
 
     protected static String asJsonString(final Object obj) {
         try {

@@ -43,6 +43,18 @@ public class TestDepartmentData {
                         .departmentName("some_dept_name_3")
                         .departmentAddress("some_dept_addr_3")
                         .departmentCode("some_dept_code_3")
+                        .build(),
+                DepartmentDto.builder()
+                        .departmentId(4L)
+                        .departmentName("dev")
+                        .departmentAddress("abc123")
+                        .departmentCode("123")
+                        .build(),
+                DepartmentDto.builder()
+                        .departmentId(5L)
+                        .departmentName("dev")
+                        .departmentAddress("abc123")
+                        .departmentCode("123")
                         .build()
 
         );

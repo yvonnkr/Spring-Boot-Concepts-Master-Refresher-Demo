@@ -4,6 +4,7 @@ import com.yvolabs.springbootdemo.dto.DepartmentDto;
 import com.yvolabs.springbootdemo.dto.DepartmentRequestDto;
 import com.yvolabs.springbootdemo.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,18 @@ public class DepartmentController {
     @GetMapping
     public ResponseEntity<List<DepartmentDto>> getDepartments() {
         return ResponseEntity.ok(service.getDepartments());
+
+    }
+
+    /**
+     * Pagination - demo
+     * search departments by name, pagination & sorting
+     * /departments/search?departmentName=dev&page=0&size=3&sort=departmentId,desc
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<DepartmentDto>> getDepartmentsPagination(@RequestParam(defaultValue = "") String departmentName, Pageable pageable) {
+        List<DepartmentDto> departments = service.getDepartmentByNamePaginated(departmentName, pageable);
+        return ResponseEntity.ok(departments);
 
     }
 

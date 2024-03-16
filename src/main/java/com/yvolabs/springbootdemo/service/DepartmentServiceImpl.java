@@ -6,6 +6,10 @@ import com.yvolabs.springbootdemo.entity.Department;
 import com.yvolabs.springbootdemo.repository.DepartmentRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +33,31 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentDto> getDepartments() {
         List<Department> departments = repository.findAll();
+        return mapDepartmentsToDto(departments);
+    }
+
+    @Override
+    public List<DepartmentDto> getDepartmentByNamePaginated(String departmentName, Pageable pageable) {
+        Page<Department> allPaginated = repository.findAllByDepartmentName(
+                departmentName,
+                PageRequest.of(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        pageable.getSortOr(Sort.by(Sort.Direction.ASC, "departmentName"))
+                )
+        );
+
+        List<Department> departments = allPaginated.getContent();
+        return mapDepartmentsToDto(departments);
+
+
+    }
+
+    private static List<DepartmentDto> mapDepartmentsToDto(List<Department> departments) {
         return departments.stream()
                 .map(INSTANCE::departmentDtoFromDepartment)
                 .toList();
     }
+
+
 }
