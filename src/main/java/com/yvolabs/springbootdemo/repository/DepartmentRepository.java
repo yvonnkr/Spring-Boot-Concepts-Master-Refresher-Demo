@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
-   Page<Department> findAllByDepartmentName(@Nullable String departmentName , PageRequest pageRequest);
+   Page<Department> findAllByDepartmentNameIgnoreCase(@Nullable String departmentName , PageRequest pageRequest);
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -46,6 +47,18 @@ class DepartmentControllerTest {
                 .andExpect(header().string("Location", "http://localhost" + PATH + "/" + departmentDto.getDepartmentId()));
 
         verify(departmentService).createDepartment(any(DepartmentRequestDto.class));
+    }
+
+    @Test
+    void should_notCreateDepartmentWithInvalidData() throws Exception {
+        DepartmentRequestDto invalidDepartmentRequestDto = TestDepartmentData.invalidDepartmentRequestDto();
+
+        mockMvc.perform(post(PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(invalidDepartmentRequestDto)))
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(departmentService);
     }
 
     @Test

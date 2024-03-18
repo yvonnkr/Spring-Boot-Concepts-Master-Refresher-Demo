@@ -39,7 +39,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<DepartmentDto> getDepartmentByNamePaginated(String departmentName, Pageable pageable) {
-        Page<Department> allPaginated = repository.findAllByDepartmentName(
+        Page<Department> allPaginated = repository.findAllByDepartmentNameIgnoreCase(
                 departmentName,
                 PageRequest.of(
                         pageable.getPageNumber(),

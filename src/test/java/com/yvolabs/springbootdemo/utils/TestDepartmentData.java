@@ -15,6 +15,14 @@ public class TestDepartmentData {
                 .build();
     }
 
+    public static DepartmentRequestDto invalidDepartmentRequestDto() {
+        return DepartmentRequestDto.builder()
+                .departmentName("")
+                .departmentAddress("some_dept_addr")
+                .departmentCode("")
+                .build();
+    }
+
     public static DepartmentDto departmentDto() {
         return DepartmentDto.builder()
                 .departmentId(1L)
